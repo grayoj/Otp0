@@ -1,35 +1,48 @@
 'use client';
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { OTP, Project } from '@otp0/constants/types';
-import { useAuth } from '@otp0/hooks/useAuth';
-
-interface ApiKey {
-  id: string;
-  projectName: string;
-  apiKey: string;
-  createdAt: string;
-  projectId: string;
-}
+import { ApiKey, OTP, Project } from '@otp0/constants/types';
 
 export async function fetchApiKeys(): Promise<ApiKey[]> {
-  const response = await axios.get(`/api/keys`);
-  return response.data;
+  const response = await fetch('/api/v1/keys');
+  const json = await response.json();
+
+  if (!Array.isArray(json.data)) {
+    throw new Error('Invalid API response: expected an array in json.data');
+  }
+
+  return json.data.map((key: ApiKey) => ({
+    id: key.id,
+    name: key.name,
+    liveKey: key.liveKey,
+    testKey: key.testKey,
+    createdAt: key.createdAt,
+  }));
 }
 
 export async function fetchProjects(): Promise<Project[]> {
-  const response = await axios.get(`/api/projects`);
-  return response.data;
+  const response = await axios.get(`/api/v1/projects`);
+  console.log('Raw projects API response:', response.data);
+
+  if (!Array.isArray(response.data.projects)) {
+    console.error(
+      'Invalid API response: expected an array in response.data.projects',
+      response.data,
+    );
+    throw new Error('Invalid API response');
+  }
+
+  return response.data.projects;
 }
 
 export async function fetchProjectById(projectId: string): Promise<Project> {
-  const response = await axios.get(`/api/projects/${projectId}`);
+  const response = await axios.get(`/api/v1/projects/${projectId}`);
   return response.data.project;
 }
 
 export async function fetchOtps(): Promise<OTP[]> {
-  const response = await axios.get(`/api/get-otps`);
+  const response = await axios.get(`/api/v1/get-otps`);
   return response.data;
 }
 

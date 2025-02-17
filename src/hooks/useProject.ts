@@ -6,11 +6,14 @@ import { PaginatedProjectsResponse, Project } from '@otp0/constants/types';
 import { useAuth } from './useAuth';
 import { useState } from 'react';
 
+// Fetch projects with pagination
 export async function fetchProjects(
   page: number = 1,
   limit: number = 10,
 ): Promise<PaginatedProjectsResponse> {
-  const response = await axios.get(`/api/projects?page=${page}&limit=${limit}`);
+  const response = await axios.get(
+    `/api/v1/projects?page=${page}&limit=${limit}`,
+  );
   return response.data;
 }
 
@@ -38,8 +41,9 @@ export function useProjects(limit: number = 10) {
   };
 }
 
+// Fetch a single project by ID
 export async function fetchProjectById(projectId: string): Promise<Project> {
-  const response = await axios.get(`/api/projects/${projectId}`);
+  const response = await axios.get(`/api/v1/projects/${projectId}`);
   return response.data.project;
 }
 
@@ -52,14 +56,18 @@ export function useProject(projectId: string) {
   });
 }
 
+// Create a new project
 export function useCreateProject() {
   const queryClient = useQueryClient();
 
   return useMutation<Project, Error, { name: string }>({
     mutationFn: async ({ name }) => {
-      const response = await axios.post<{ project: Project }>('/api/projects', {
-        name,
-      });
+      const response = await axios.post<{ project: Project }>(
+        '/api/v1/projects',
+        {
+          name,
+        },
+      );
       return response.data.project;
     },
     onSuccess: (newProject) => {
@@ -72,12 +80,13 @@ export function useCreateProject() {
   });
 }
 
+// Delete a project
 export function useDeleteProject() {
   const queryClient = useQueryClient();
 
   return useMutation<void, Error, { id: string }>({
     mutationFn: async ({ id }) => {
-      await axios.delete('/api/projects', { data: { id } });
+      await axios.delete('/api/v1/projects', { data: { id } });
     },
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['projects'] });

@@ -7,6 +7,8 @@ import { KEYS_PER_PAGE } from '@otp0/constants/constants';
 import { ApiKey } from '@otp0/constants/types';
 
 export function useApiKeys() {
+  console.log('useApiKeys hook is executing...');
+
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const {
@@ -15,7 +17,10 @@ export function useApiKeys() {
     error,
   } = useQuery<ApiKey[], Error>({
     queryKey: ['apiKeys'],
-    queryFn: fetchApiKeys,
+    queryFn: async () => {
+      const data = await fetchApiKeys();
+      return data;
+    },
     staleTime: 5 * 60 * 1000,
   });
 
@@ -34,10 +39,9 @@ export function useApiKeys() {
     error,
   };
 }
+
 export function useApiKeyVisibility() {
-  const [visibleKeys, setVisibleKeys] = useState<{ [key: string]: boolean }>(
-    {},
-  );
+  const [visibleKeys, setVisibleKeys] = useState<Record<string, boolean>>({});
 
   const toggleVisibility = (id: string) => {
     setVisibleKeys((prev) => ({ ...prev, [id]: !prev[id] }));

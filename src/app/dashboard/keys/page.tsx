@@ -16,7 +16,6 @@ import {
 
 export default function KeysPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   const { keys, totalPages, currentPage, setCurrentPage, isLoading } =
     useApiKeys();
   const { visibleKeys, toggleVisibility } = useApiKeyVisibility();

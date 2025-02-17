@@ -31,7 +31,7 @@ export default function DashboardEmptyState({
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
       <p className="text-muted-foreground text-lg">
-        You don't have any projects. Create a project.
+        You don't have any OTPs. Generate one.
       </p>
       <Button onClick={onCreateProject} className="flex items-center gap-2">
         <span>Create Project</span>

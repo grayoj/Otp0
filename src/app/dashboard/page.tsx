@@ -1,6 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import DashboardCard from '@otp0/components/DashboardCard';
+import DashboardEmptyState from '@otp0/components/DashboardEmptyState';
+import CreateProjectDialog from '@otp0/components/CreateProjectDialog';
+import { useOtps } from '@otp0/hooks/useOtps';
+import { useProjectsCount } from '@otp0/services/client';
 import {
   Table,
   TableBody,
@@ -10,11 +15,6 @@ import {
   TableRow,
 } from '@otp0/components/ui/table';
 import { Key, Folder, CheckCircle } from 'lucide-react';
-import DashboardCard from '@otp0/components/DashboardCard';
-import DashboardEmptyState from '@otp0/components/DashboardEmptyState';
-import CreateProjectDialog from '@otp0/components/CreateProjectDialog';
-import { useOtps } from '@otp0/hooks/useOtps';
-import { useProjectsCount } from '@otp0/services/client';
 
 export default function DashboardPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -58,13 +58,13 @@ export default function DashboardPage() {
         />
         <DashboardCard
           title="Active Projects"
-          value={projectsCount ?? 0}
+          value={projectsCount}
           icon={<Folder />}
           description="Total Projects"
         />
         <DashboardCard
           title="OTP Success Rate"
-          value="98%"
+          value={otps?.length ? '98%' : '0%'}
           icon={<CheckCircle />}
           description="Successful Generations"
         />
@@ -72,7 +72,7 @@ export default function DashboardPage() {
 
       <div className="rounded-xl border p-4">
         <h2 className="text-lg font-semibold mb-4">Generated OTPs</h2>
-        <Table className="border border-gray-200">
+        <Table className="border border-gray-200 w-full">
           <TableHeader>
             <TableRow className="border-b border-gray-300">
               <TableHead className="p-3">OTP Code</TableHead>
