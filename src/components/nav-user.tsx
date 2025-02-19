@@ -34,6 +34,11 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar();
 
+  const userFullName = user?.fullName || 'Guest';
+  const userImageUrl = user?.imageUrl || '';
+  const userEmail =
+    user?.emailAddresses?.[0]?.emailAddress || 'No email available';
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -54,16 +59,14 @@ export function NavUser({
               ) : isSignedIn ? (
                 <>
                   <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user.imageUrl} alt={user.fullName} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                    <AvatarImage src={userImageUrl} alt={userFullName} />
+                    <AvatarFallback className="rounded-lg">
+                      {userFullName.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">
-                      {user.fullName}
-                    </span>
-                    <span className="truncate text-xs">
-                      {user.emailAddresses[0]?.emailAddress}
-                    </span>
+                    <span className="truncate font-semibold">{userFullName}</span>
+                    <span className="truncate text-xs">{userEmail}</span>
                   </div>
                   <ChevronsUpDown className="ml-auto size-4" />
                 </>
@@ -91,16 +94,14 @@ export function NavUser({
                 ) : (
                   <>
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={user.imageUrl} alt={user.fullName} />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      <AvatarImage src={userImageUrl} alt={userFullName} />
+                      <AvatarFallback className="rounded-lg">
+                        {userFullName.charAt(0)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
-                        {user.fullName}
-                      </span>
-                      <span className="truncate text-xs">
-                        {user.emailAddresses[0]?.emailAddress}
-                      </span>
+                      <span className="truncate font-semibold">{userFullName}</span>
+                      <span className="truncate text-xs">{userEmail}</span>
                     </div>
                   </>
                 )}
