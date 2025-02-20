@@ -23,7 +23,6 @@ export async function fetchApiKeys(): Promise<ApiKey[]> {
 
 export async function fetchProjects(): Promise<Project[]> {
   const response = await axios.get(`/api/v1/projects`);
-  console.log('Raw projects API response:', response.data);
 
   if (!Array.isArray(response.data.projects)) {
     console.error(

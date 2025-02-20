@@ -7,8 +7,6 @@ import { KEYS_PER_PAGE } from '@otp0/constants/constants';
 import { ApiKey } from '@otp0/constants/types';
 
 export function useApiKeys() {
-  console.log('useApiKeys hook is executing...');
-
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const {
