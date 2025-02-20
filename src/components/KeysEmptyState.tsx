@@ -24,7 +24,7 @@ export function KeysEmptyState({
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
       <p className="text-muted-foreground text-lg">
-        You don't have any API keys. Create a project.
+        You don't have any API keys. Create an otp0 project.
       </p>
       <Button onClick={onCreateProject} className="flex items-center gap-2">
         <span>Create Project</span>
